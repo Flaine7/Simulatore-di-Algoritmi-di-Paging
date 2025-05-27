@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<string.h>
 
 #define QUANTUM 2
 
@@ -7,7 +8,7 @@ void FIFO();
 void LRU();
 
 // POST: Traduce gli indirizzi virtuali in numero di pagina virtuale
-int Pag_virtuale(int ind, int dimPag);
+int Pag_virtuale(int ind,int dimPag);
 
 
 int main(){
@@ -30,11 +31,23 @@ int main(){
     //SOTTO: David
 
     //Lettura file
-    FILE *pf1 = fopen("tracce_indirizzi/processo1.txt","r"), *pf2 = fopen("tracce_indirizzi/processo2.txt","r"); //apro in lettura i file traccia
 
-    if(pf1 == NULL || pf2 == NULL){
-        fprintf(stderr,“Il file non può essere aperto\n”);
-        return EXIT_FAILURE;
+    int nFileTraccia; // Numero dei file di traccia 
+    scanf("%d", &nFileTraccia);
+
+    FILE *File[nFileTraccia]; // Array che contiene i puntatori a tutti i file di tracci
+
+    for(int i = 0; i < nFileTraccia; i++){
+        char NomeFile[100]; // Variabile appoggio per poter memorizzare il nome del file
+        scanf("%s", NomeFile); // Viene inserito il Nome del file, CON l'estensione .txt
+        File[i] = fopen(strcat("tracce_indirizzi/",NomeFile), "r"); // !!! DA RIVEDERE !!!
+    }
+
+    for(int i = 0; i < nFileTraccia; i++){
+        if(File[i] == NULL){
+            fprintf(stderr,“Il file non può essere aperto\n”);
+            return EXIT_FAILURE; // !!! Ricorda di aggiungere il controllo !!!
+        }     
     }
 
     //Algoritmo principale (ricevo indirizzi, calcolo numero di pagina virtuale, )
@@ -65,8 +78,9 @@ int main(){
         }
     }
 
-    fclose(pf1);
-    fclose(pf2);
+    for(int i = 0; i < nFileTraccia; i++){
+        fclose(File[i]);
+    }
 
 }
 

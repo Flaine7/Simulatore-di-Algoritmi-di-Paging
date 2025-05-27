@@ -25,6 +25,8 @@ int main(){
         RAM[i] = -1; // -1 valore pari a VUOTO
     }
 
+    const int dimPagina = 4096; // Dim. pagina
+
     //Lettura file
     FILE *pf1 = fopen("tracce_indirizzi/processo1.txt","r"), *pf2 = fopen("tracce_indirizzi/processo2.txt","r"); //apro in lettura i file traccia
 
@@ -32,8 +34,6 @@ int main(){
         fprintf(stderr,“Il file non può essere aperto\n”);
         return EXIT_FAILURE;
     }
-    
-    const int dimPagina = 4096; // Dim. pagina
 
     //Algoritmo principale (ricevo indirizzi, calcolo numero di pagina virtuale, )
     //Serve : tradurre gli indirizzi, vedere se ci sono gia' in RAM (algoritmo di ricerca), se no page fault, se devo rimpiazzare: algoritmo

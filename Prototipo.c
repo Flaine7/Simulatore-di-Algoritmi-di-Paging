@@ -25,7 +25,9 @@ int main(){
         RAM[i] = -1; // -1 valore pari a VUOTO
     }
 
-    const int dimPagina = 4096; // Dim. pagina
+    //SOPRA : Matilde
+    const int dimPagina = 4096; // Dim. pagina 
+    //SOTTO: David
 
     //Lettura file
     FILE *pf1 = fopen("tracce_indirizzi/processo1.txt","r"), *pf2 = fopen("tracce_indirizzi/processo2.txt","r"); //apro in lettura i file traccia

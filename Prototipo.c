@@ -7,13 +7,13 @@ void FIFO();
 void LRU();
 
 // POST: Traduce gli indirizzi virtuali in numero di pagina virtuale
-int Pag_virtuale(int s,int dimPag);
+int Pag_virtuale(int ind, int dimPag);
 
 
 int main(){
 
     int alg; // Scelta del algoritmo da usare
-    scanf("%d", &dimRAM);
+    scanf("%d", &alg);
 
     //Creazione RAM fisica
     int dimRAM; // numero page frame
@@ -68,4 +68,8 @@ int main(){
     fclose(pf1);
     fclose(pf2);
 
+}
+
+int Pag_virtuale(int ind, int dimPag){
+    return ind/dimPag;
 }

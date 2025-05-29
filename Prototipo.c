@@ -1,7 +1,6 @@
-#include <stdio.h>
+#include<stdio.h>
+#include<string.h>
 #include <stdlib.h>
-#include <string.h>
-
 
 #define QUANTUM 2
 
@@ -12,6 +11,14 @@ void LRU();
 // POST: Traduce gli indirizzi virtuali in numero di pagina virtuale
 int Pag_virtuale(int ind,int dimPag);
 
+//POST: Ritorna 0 se tutti gli elementi dell'array da 0 a n sono pari a -1, 1 altrimenti
+int ControlloFile(int *arr, int n);
+
+//POST: Ritorna 1 se trova il numero n nella RAM, 0 altrimenti
+int CercaPagina(int *RAM, int dimRAM, int n);
+
+//POST: Ritorna 1 se la RAM e' piena, 0 altrimenti
+int RAMPiena(int *RAM, int dimRAM);
 
 int main(){
 
@@ -68,8 +75,8 @@ int main(){
                         int ind = atoi(s);
                         ind = Pag_virtuale(ind, dimPagina);
                         
-                        if(CercaPagina(RAM, ind) == 0){ //Se 0 pagina non trovata in RAM
-                            if(RAMPiena(RAM) == 0){ //Se 0 c'e spazio libero in RAM
+                        if(CercaPagina(RAM, dimRAM, ind) == 0){ //Se 0 pagina non trovata in RAM
+                            if(RAMPiena(RAM, dimRAM) == 0){ //Se 0 c'e spazio libero in RAM
                                 for(int k = 0; k < dimRAM; k++){
                                     if(RAM[k] == -1){
                                         RAM[k] = ind;
@@ -102,4 +109,34 @@ int main(){
 
 int Pag_virtuale(int ind, int dimPag){
     return ind/dimPag;
+}
+
+int ControlloFile(int *arr, int n){
+    for(int i = 0; i < n; i++){
+        if(*(arr+i) != -1){
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+int CercaPagina(int *RAM, int dimRAM, int n){
+    for(int i = 0; i < dimRAM; i++){
+        if(*(RAM+i) == n){
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+int RAMPiena(int *RAM, int dimRAM){
+    for(int i = 0; i < dimRAM; i++){
+        if(*(RAM + i) == -1){
+            return 0;
+        }
+    }
+
+    return 1;
 }

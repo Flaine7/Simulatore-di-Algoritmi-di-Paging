@@ -1,0 +1,91 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+int FIFO(int RAM[dim], int dim, int ind);
+
+/*Restituisce 1 se la lista e' vuota, 0 altrimenti*/
+int isempty(struct nodo* ptr)
+
+/*Cancella l'ultimo nodo della lista*/
+void delete_last();
+
+/*Crea un nuovo nodo*/
+struct nodo* new_nodo(int info)
+
+/*Aggiunge un nodo all'inizio della lista*/
+void pre_insert();
+
+/*Sposta tutti gli elementi dell'array a destra di una posizione, perdendo l'ultimo elemento e duplicandom il primo*/
+void right_shift(int array[dim], int dim);
+
+/*Stampa l'array*/
+void stampa_array(int* A, int dim);
+
+int main(){
+
+    int A[5]={0, 1, 2, 3, 4};
+    
+    return 0;
+}
+
+int FIFO(int RAM[dim], int dim, int ind, struct nodo *ptr){
+    
+    //cancello l'ultimo nodo della lista
+    delete_last(ptr);
+
+    //aggiungo all'inizio della lista un nodo con valore ind
+    pre_insert(&ptr, ind);
+
+    //faccio scorrere tutti gli elementi della RAM avanti di una posizione (perdendo traquillamente l'ultimo perche' non ci serve)
+    right_shift(RAM, dim);
+
+    //aggiungo ind come primo elemento della RAM
+    RAM[0]=ind;
+
+}
+
+int isempty(struct nodo* ptr){
+    return ptr==NULL? 1: 0;
+}
+
+void delete_last(struct nodo* ptr){
+    struct nodo * prevptr;          //potrebbe essere sbagliato
+    while(isempty(ptr) == 0){
+        prevptr = ptr;
+        ptr = ptr->next
+    }
+    prevptr=NULL;
+    free(ptr);
+}
+
+struct nodo* new_nodo(int info){
+    struct nodo *temp = (struct nodo*)malloc(sizeof(struct nodo));
+    temp->info = info;
+    temp->next = NULL;
+    return temp;
+}
+
+void pre_insert(struct nodo** pptr, int val){
+    struct nodo* nuovo = new_nodo(val);
+    nuovo->next = *pptr;
+    *pptr = nuovo;
+}
+
+void right_shift(int array[dim], int dim){
+    for(int i=dim; i>0; i--){
+        array[i+1]=array[i];
+    }
+}
+
+//funzione di servizio
+void stampa_array(int* A, int dim){
+    printf("[");
+    if(A != NULL & dim > 0){
+        printf("%d", A[0]);
+    }
+    for(int i=1; i<dim; i++){
+        printf(",%d", A[i]);
+    }
+    printf("]");
+}

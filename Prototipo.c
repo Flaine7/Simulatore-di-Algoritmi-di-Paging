@@ -94,8 +94,6 @@ int main(){
                                 } 
                             }
                         }
-
-                        
                     }
                     else{
                         fclose(pFile[i]);

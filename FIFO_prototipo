@@ -2,7 +2,12 @@
 #include <string.h>
 #include <stdlib.h>
 
-void FIFO(int dim, int RAM[dim], int ind, struct nodo *ptr);
+struct nodo{
+    int info;
+    struct nodo* next;
+};
+
+void FIFO(int dim, int *RAM, int ind, struct nodo *ptr);
 
 /*Restituisce 1 se la lista e' vuota, 0 altrimenti*/
 int isempty(struct nodo* ptr);
@@ -17,30 +22,40 @@ struct nodo* new_nodo(int info);
 void pre_insert(struct nodo** pptr, int val);
 
 /*Sposta tutti gli elementi dell'array a destra di una posizione, perdendo l'ultimo elemento e duplicandom il primo*/
-void right_shift(int dim, int array[dim]);
+void right_shift(int dim, int *array);
 
 /*Stampa l'array*/
 void stampa_array(int* A, int dim);
+
+/*Stampa la lista*/
+void print_list(struct nodo* ptr);
 
 int main(){
 
     int A[5]={4, 3, 2, 1, 0};
     int indirizzo=5;
-    struct nodo* lista;
+    struct nodo* next;
 
-    stampa_array(A, 5);
+    struct nodo* lista = NULL;
 
-    right_shift(5, A);
+    pre_insert(&lista, 0);
+    pre_insert(&lista, 1);
+    pre_insert(&lista, 2);
+    pre_insert(&lista, 3);
+    pre_insert(&lista, 4);
+
+    
 
     FIFO(5, A, indirizzo, lista);
-
-    stampa_array(A, 5);
     
     return 0;
 }
 
-void FIFO(int dim, int RAM[dim], int ind, struct nodo *ptr){
+void FIFO(int dim, int *RAM, int ind, struct nodo *ptr){
     
+    print_list(ptr);
+    printf("\n");
+
     //cancello l'ultimo nodo della lista
     delete_last(ptr);
 
@@ -48,27 +63,34 @@ void FIFO(int dim, int RAM[dim], int ind, struct nodo *ptr){
     pre_insert(&ptr, ind);
 
     //faccio scorrere tutti gli elementi della RAM avanti di una posizione (perdendo traquillamente l'ultimo perche' non ci serve)
-    right_shift(RAM, dim);
+    right_shift(dim, RAM);
 
     //aggiungo ind come primo elemento della RAM
+    RAM[0]=ind;
 
-RAM[0]=ind;
+    print_list(ptr);
+
 }
 
 int isempty(struct nodo* ptr){
-    return ptr==NULL? 1: 0;
+    return ptr == NULL? 1: 0;
 }
 
-void delete_last(struct nodo* ptr){
-    struct nodo * ptr1 = ptr;               //puntatore al nodo da cancellare 
-    struct nodo * ptr2 = ptr->next;         //puntatore al nodo precedente a quello da cancellare
-    while(isempty(ptr1) == 0){
-        ptr2 = ptr1;
-        ptr1 = ptr2->next;
+void delete_last(struct nodo** pptr){               //da finire
+    
+    while(isempty(*pptr) == 0){       
+        prevptr = pptr;
+        pptr = &((*pptr)->next);
     }
 
-    ptr2=NULL;
-    free(ptr1);
+}
+
+void suf_insert(struct nodo** pptr, int val){
+    struct nodo* nuovo = new_nodo(val);
+    while(isempty(*pptr)==0){
+        pptr = &((*pptr)->next);
+    }
+    *pptr = nuovo;
 }
 
 struct nodo* new_nodo(int info){
@@ -84,9 +106,9 @@ void pre_insert(struct nodo** pptr, int val){
     *pptr = nuovo;
 }
 
-void right_shift(int dim, int array[dim]){
-    for(int i=dim-1; i>=0; i--){
-        array[i+1]=array[i];
+void right_shift(int dim, int *array){
+    for(int i = dim-1; i >= 0; i--){
+        array[i+1] = array[i];
     }
 }
 
@@ -96,8 +118,22 @@ void stampa_array(int* A, int dim){
     if(A != NULL & dim > 0){
         printf("%d", A[0]);
     }
-    for(int i=1; i<dim; i++){
+    for(int i = 1; i < dim; i++){
         printf(",%d", A[i]);
     }
     printf("]");
+}
+
+//funzione di servizio
+void print_list(struct nodo* ptr){
+    if(isempty(ptr)==1){
+        printf("Vuota\n");
+    }
+    else{
+        while(isempty(ptr)==0){
+            printf("%d ", ptr->info);
+            ptr = ptr->next;
+        }
+        printf("\n");
+    }
 }

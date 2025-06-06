@@ -2,34 +2,44 @@
 #include <string.h>
 #include <stdlib.h>
 
-int FIFO(int RAM[dim], int dim, int ind);
+void FIFO(int dim, int RAM[dim], int ind, struct nodo *ptr);
 
 /*Restituisce 1 se la lista e' vuota, 0 altrimenti*/
-int isempty(struct nodo* ptr)
+int isempty(struct nodo* ptr);
 
 /*Cancella l'ultimo nodo della lista*/
-void delete_last();
+void delete_last(struct nodo* ptr);
 
 /*Crea un nuovo nodo*/
-struct nodo* new_nodo(int info)
+struct nodo* new_nodo(int info);
 
 /*Aggiunge un nodo all'inizio della lista*/
-void pre_insert();
+void pre_insert(struct nodo** pptr, int val);
 
 /*Sposta tutti gli elementi dell'array a destra di una posizione, perdendo l'ultimo elemento e duplicandom il primo*/
-void right_shift(int array[dim], int dim);
+void right_shift(int dim, int array[dim]);
 
 /*Stampa l'array*/
 void stampa_array(int* A, int dim);
 
 int main(){
 
-    int A[5]={0, 1, 2, 3, 4};
+    int A[5]={4, 3, 2, 1, 0};
+    int indirizzo=5;
+    struct nodo* lista;
+
+    stampa_array(A, 5);
+
+    right_shift(5, A);
+
+    FIFO(5, A, indirizzo, lista);
+
+    stampa_array(A, 5);
     
     return 0;
 }
 
-int FIFO(int RAM[dim], int dim, int ind, struct nodo *ptr){
+void FIFO(int dim, int RAM[dim], int ind, struct nodo *ptr){
     
     //cancello l'ultimo nodo della lista
     delete_last(ptr);
@@ -41,8 +51,8 @@ int FIFO(int RAM[dim], int dim, int ind, struct nodo *ptr){
     right_shift(RAM, dim);
 
     //aggiungo ind come primo elemento della RAM
-    RAM[0]=ind;
 
+RAM[0]=ind;
 }
 
 int isempty(struct nodo* ptr){
@@ -50,13 +60,15 @@ int isempty(struct nodo* ptr){
 }
 
 void delete_last(struct nodo* ptr){
-    struct nodo * prevptr;          //potrebbe essere sbagliato
-    while(isempty(ptr) == 0){
-        prevptr = ptr;
-        ptr = ptr->next
+    struct nodo * ptr1 = ptr;               //puntatore al nodo da cancellare 
+    struct nodo * ptr2 = ptr->next;         //puntatore al nodo precedente a quello da cancellare
+    while(isempty(ptr1) == 0){
+        ptr2 = ptr1;
+        ptr1 = ptr2->next;
     }
-    prevptr=NULL;
-    free(ptr);
+
+    ptr2=NULL;
+    free(ptr1);
 }
 
 struct nodo* new_nodo(int info){
@@ -72,8 +84,8 @@ void pre_insert(struct nodo** pptr, int val){
     *pptr = nuovo;
 }
 
-void right_shift(int array[dim], int dim){
-    for(int i=dim; i>0; i--){
+void right_shift(int dim, int array[dim]){
+    for(int i=dim-1; i>=0; i--){
         array[i+1]=array[i];
     }
 }

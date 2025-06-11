@@ -72,8 +72,6 @@ int main(){
     //Algoritmo principale (ricevo indirizzi, calcolo numero di pagina virtuale, )
     //Serve : tradurre gli indirizzi, vedere se ci sono gia' in RAM (algoritmo di ricerca), se no page fault, se devo rimpiazzare: algoritmo
 
-    int trovata;
-
     while(ControlloFile(pFile, nFileTraccia) == 1){
         for(int i = 0; i < nFileTraccia; i++){
             for(int j = 0; j < QUANTUM; j++){ // leggo fino a QUANTUM dento ogni file

@@ -84,7 +84,6 @@ int main(){
                         ind = Pag_virtuale(ind, dimPagina);
                         
                         if(CercaPagina(RAM, dimRAM, ind) == 0){ //Se 0 pagina non trovata in RAM
-                            trovata = 0;
                             if(RAMPiena(RAM, dimRAM) == 0){ //Se 0 c'e spazio libero in RAM
                                 for(int k = 0; k < dimRAM; k++){
                                     if(RAM[k] == -1){
@@ -100,7 +99,7 @@ int main(){
                                 }
                                 else{
                                     //David
-                                    LRU(dimRAM, RAM, ind, trovata);
+                                    LRU(dimRAM, RAM, ind, 0);
                                 } 
                             }
                         }

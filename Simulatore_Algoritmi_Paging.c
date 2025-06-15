@@ -178,57 +178,58 @@ void LRU(int dim, int *RAM, int ind, int c){
 
         //sposto gli elentuali -1 presenti in RAM
         for(int i = 0; i < dim; i++){
-        if(*(RAM+i)>=0 && *(RAM+i+1) == -1){
-            *(RAM+i+1) = *(RAM+i);
-            *(RAM+i) = -1;
+            if(*(RAM+i)>=0 && *(RAM+i+1) == -1){
+                *(RAM+i+1) = *(RAM+i);
+                *(RAM+i) = -1;
+            }
+        }
+
+    }
+}
+
+    int Pag_virtuale(int ind, int dimPag){
+        return ind/dimPag;
+    }
+
+    int ControlloFile(FILE **arr, int n){
+        for(int i = 0; i < n; i++){
+            if(*(arr + i) != NULL){
+                return 1;
+            }
+        }
+
+        return 0;
+    }
+
+    int CercaPagina(int *RAM, int dimRAM, int n){
+        for(int i = 0; i < dimRAM; i++){
+            if(*(RAM+i) == n){
+                return 1;
+            }
+        }
+
+        return 0;
+    }
+
+    int RAMPiena(int *RAM, int dimRAM){
+        for(int i = 0; i < dimRAM; i++){
+            if(*(RAM + i) == -1){
+                return 0;
+            }
+        }
+
+        return 1;
+    }
+
+    void right_shift(int dim, int *array){
+        for(int i = dim-1; i >= 0; i--){
+            array[i+1] = array[i];
         }
     }
 
-}
-
-int Pag_virtuale(int ind, int dimPag){
-    return ind/dimPag;
-}
-
-int ControlloFile(FILE **arr, int n){
-    for(int i = 0; i < n; i++){
-        if(*(arr + i) != NULL){
-            return 1;
+    int trova_posizione(int* A, int dim, int val){
+        for(int i=0; i<dim; i++){
+            if(*(A+i)==val)
+                return i;
         }
     }
-
-    return 0;
-}
-
-int CercaPagina(int *RAM, int dimRAM, int n){
-    for(int i = 0; i < dimRAM; i++){
-        if(*(RAM+i) == n){
-            return 1;
-        }
-    }
-
-    return 0;
-}
-
-int RAMPiena(int *RAM, int dimRAM){
-    for(int i = 0; i < dimRAM; i++){
-        if(*(RAM + i) == -1){
-            return 0;
-        }
-    }
-
-    return 1;
-}
-
-void right_shift(int dim, int *array){
-    for(int i = dim-1; i >= 0; i--){
-        array[i+1] = array[i];
-    }
-}
-
-int trova_posizione(int* A, int dim, int val){
-    for(int i=0; i<dim; i++){
-        if(*(A+i)==val)
-            return i;
-    }
-}

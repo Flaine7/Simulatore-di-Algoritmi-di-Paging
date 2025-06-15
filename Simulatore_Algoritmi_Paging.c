@@ -175,6 +175,13 @@ void LRU(int dim, int *RAM, int ind, int c){
 
         //aggiungo ind come primo elemento della RAM
         RAM[0]=ind;
+
+        //sposto gli elentuali -1 presenti in RAM
+        for(int i = 0; i < dim; i++){
+        if(*(RAM+i)>=0 && *(RAM+i+1) == -1){
+            *(RAM+i+1) = *(RAM+i);
+            *(RAM+i) = -1;
+        }
     }
 
 }

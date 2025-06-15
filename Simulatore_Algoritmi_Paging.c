@@ -12,7 +12,7 @@ void LRU(int dim, int *RAM, int ind, int c);
 int Pag_virtuale(int ind,int dimPag);
 
 //POST: Ritorna 0 se tutti gli elementi dell'array da 0 a n sono pari a -1, 1 altrimenti
-int ControlloFile(int *arr, int n);
+int ControlloFile(FILE **arr, int n);
 
 //POST: Ritorna 1 se trova il numero n nella RAM, 0 altrimenti
 int CercaPagina(int *RAM, int dimRAM, int n);
@@ -43,7 +43,12 @@ int main(int dimRAM, int alg, char PercorsoFile[100], int nFileTraccia){
     FILE *pFile[nFileTraccia]; // Array che contiene i puntatori a tutti i file di tracci
 
     for(int i = 1; i <= nFileTraccia; i++){
-        char NomeFile[20] = strcat(strcat("Processo", snprintf(i)), ".txt");
+        char str[1];
+        sprintf(str, "%d", i);
+
+        char NomeFile[20] = "";
+        strcat(strcat(strcat(NomeFile, "Processo"), str), ".txt");
+
         pFile[i-1] = fopen(strcat(strcat(PercorsoFile, "/"), NomeFile), "r");
     }
 
@@ -62,7 +67,7 @@ int main(int dimRAM, int alg, char PercorsoFile[100], int nFileTraccia){
     while(ControlloFile(pFile, nFileTraccia) == 1){
         for(int i = 0; i < nFileTraccia; i++){
             for(int j = 0; j < QUANTUM; j++){ // leggo fino a QUANTUM dento ogni file
-                if(pFile[i] != -1){
+                if(pFile[i] != NULL){
                     char s[50];
                     if(fgets(s, sizeof(s), pFile[i]) != NULL){
                         int ind = atoi(s);
@@ -71,10 +76,10 @@ int main(int dimRAM, int alg, char PercorsoFile[100], int nFileTraccia){
                         if(CercaPagina(RAM, dimRAM, ind) == 0){ //Se 0 pagina non trovata in RAM
                             page_fault++;
                             if(RAMPiena(RAM, dimRAM) == 0){ //Se 0 c'e spazio libero in RAM
-                                for(int k = dimRAM-1; k >= 0; k--){
+                                for(int k = 0; k < dimRAM; k++){
                                     if(RAM[k] == -1){
                                         RAM[k] = ind;
-                                        k = -1;
+                                        k = dimRAM;
                                     }
                                 }
                             }
@@ -99,7 +104,7 @@ int main(int dimRAM, int alg, char PercorsoFile[100], int nFileTraccia){
                     }
                     else{
                         fclose(pFile[i]);
-                        pFile[i] = -1;
+                        pFile[i] = NULL;
                     }
                 }
             }
@@ -160,9 +165,9 @@ int Pag_virtuale(int ind, int dimPag){
     return ind/dimPag;
 }
 
-int ControlloFile(int *arr, int n){
+int ControlloFile(FILE **arr, int n){
     for(int i = 0; i < n; i++){
-        if(*(arr+i) != -1){
+        if(*(arr + i) == NULL){
             return 1;
         }
     }

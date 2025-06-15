@@ -71,10 +71,10 @@ int main(int dimRAM, int alg, char PercorsoFile[100], int nFileTraccia){
                         if(CercaPagina(RAM, dimRAM, ind) == 0){ //Se 0 pagina non trovata in RAM
                             page_fault++;
                             if(RAMPiena(RAM, dimRAM) == 0){ //Se 0 c'e spazio libero in RAM
-                                for(int k = 0; k < dimRAM; k++){
+                                for(int k = dimRAM-1; k >= 0; k--){
                                     if(RAM[k] == -1){
                                         RAM[k] = ind;
-                                        k = dimRAM;
+                                        k = -1;
                                     }
                                 }
                             }

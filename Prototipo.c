@@ -31,10 +31,6 @@ int main(){
     int alg; // Scelta del algoritmo da usare
     scanf("%d", &alg);
 
-    if(alg == 0){
-        //Creo lista
-    }
-
     //Creazione RAM fisica
     int dimRAM; // numero page frame
     scanf("%d", &dimRAM);

@@ -1,0 +1,24 @@
+Matilde Pedrocchi 2138003
+David Stupu 2145613
+
+FILE C
+
+Viene creato un array  di dimensione dimRAM che rappresenta la RAM fisica. L'array viene interamente inzializzato a -1
+per rappresentare gli spazi vuoti.
+
+Viene creato un array pFile della dimensione del numero di file traccia, in cui vengono messi i puntatori ai file.
+
+Si creano due variabili contatore, una per i page fault e una per i page hit.
+Si controlla che ci siano ancora dei file da leggere. ----- 
+Per ogni file ancora non terminato, leggo le prime QUANTUM righe. Per ogni riga letta trasformo l'indirizzo nel numero 
+di pagina corrispondente e controllo se e' presente in RAM:
+- Se la pagina non e' presente in RAM, aumento il contatore dei page fault e controllo se la RAM e' piena: 
+	- Se c'e' ancora spazio libero nella RAM, la pagina viene messa in RAM.
+	- Se la RAM e' piena, si usa uno degli algoritmi di sostituzione. 
+- Se la pagina e' presente in RAM, si aumenta il contatore di page hit. Se si sta usando LRU, si sposta la pagina in 
+  posizione 0 nell'array RAM.
+Quando un file e' stato completamente letto, viene chiuso e al suo posto viene scritto NULL nell'array pFile.
+
+Per permettere la stampa delle statistiche, si apre un file (Diverso a seconda dell'algoritmo usato) in cui si 
+scrivono il numero di page fault, il numero di page hit e il fault rate complessivo.
+

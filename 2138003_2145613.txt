@@ -1,5 +1,5 @@
-Matilde Pedrocchi 2138003
-David Stupu 2145613
+2138003
+2145613
 
 FILE .C
 
